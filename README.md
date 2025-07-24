@@ -27,3 +27,10 @@ This is a Python-based voice-controlled desktop assistant that can perform vario
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
+
+## 🔽 Download Executable (.exe)
+
+You can download the standalone Windows version of the Voice Controlled Desktop Assistant here:
+
+👉 [Download Voice Assistant (.exe) from Google Drive](https://drive.google.com/file/d/12w5HalCM_AscqvY6FBA58D8o-2ObcvI_/view?usp=drive_web)
+

@@ -1,5 +1,2 @@
-speechrecognition
-pyttsx3
-pyautogui
+streamlit
 psutil
-pyaudio

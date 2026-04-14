@@ -44,19 +44,23 @@ if option == "🏠 Home":
 
 
 # ------------------ TIME & DATE ------------------
+import pytz
+
 elif option == "⏰ Time & Date":
     st.subheader("⏰ Time & Date")
+
+    ist = pytz.timezone('Asia/Kolkata')
 
     col1, col2 = st.columns(2)
 
     with col1:
         if st.button("Show Time"):
-            current_time = datetime.datetime.now().strftime("%I:%M %p")
+            current_time = datetime.datetime.now(ist).strftime("%I:%M %p")
             speak(f"Current Time: {current_time}")
 
     with col2:
         if st.button("Show Date"):
-            today_date = datetime.date.today().strftime("%B %d, %Y")
+            today_date = datetime.datetime.now(ist).strftime("%B %d, %Y")
             speak(f"Today's Date: {today_date}")
 
 # ------------------ QUICK ACCESS ------------------

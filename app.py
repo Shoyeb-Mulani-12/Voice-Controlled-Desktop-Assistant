@@ -35,10 +35,15 @@ if option == "🏠 Home":
 # BATTERY
 elif option == "🔋 Battery Status":
     st.subheader("🔋 Battery Status")
-    if st.button("Check Battery"):
-        battery = psutil.sensors_battery()
-        percent = battery.percent if battery else "Not Available"
+   if st.button("Check Battery"):
+    battery = psutil.sensors_battery()
+
+    if battery:
+        percent = battery.percent
+        st.progress(percent)
         speak(f"Battery is at {percent}%")
+    else:
+        st.warning("⚠ Battery data not available on server")
 
 # TIME & DATE
 elif option == "⏰ Time & Date":

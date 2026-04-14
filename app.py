@@ -48,14 +48,18 @@ elif option == "🔋 Battery Status":
     st.subheader("🔋 Battery Status")
 
     if st.button("Check Battery"):
-        battery = psutil.sensors_battery()
+        try:
+            battery = psutil.sensors_battery()
 
-        if battery:
-            percent = battery.percent
-            st.progress(percent)
-            speak(f"Battery is at {percent}%")
-        else:
-            st.warning("⚠ Battery information not available on this server")
+            if battery is None:
+                st.warning("⚠ Battery not available on this system")
+            else:
+                percent = battery.percent
+                st.progress(percent)
+                speak(f"Battery is at {percent}%")
+
+        except Exception:
+            st.warning("⚠ Battery information not supported on this server")
 
 # ------------------ TIME & DATE ------------------
 elif option == "⏰ Time & Date":

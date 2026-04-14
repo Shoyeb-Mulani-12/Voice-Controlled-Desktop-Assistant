@@ -2,50 +2,62 @@ import streamlit as st
 import datetime
 import psutil
 
-# Page config
-st.set_page_config(page_title="AI Desktop Assistant", page_icon="🤖", layout="centered")
+# ------------------ PAGE CONFIG ------------------
+st.set_page_config(
+    page_title="AI Desktop Assistant",
+    page_icon="🤖",
+    layout="centered"
+)
 
-# Header
+# ------------------ HEADER ------------------
 st.markdown("""
     <h1 style='text-align: center; color: #4CAF50;'>🤖 AI Desktop Assistant</h1>
     <h4 style='text-align: center;'>Created by Shoyeb Hamid Mulani</h4>
     <hr>
 """, unsafe_allow_html=True)
 
-# Function to display response
+# ------------------ RESPONSE FUNCTION ------------------
 def speak(text):
     st.success(text)
 
-# Sidebar
-st.sidebar.title("📌 Menu")
-option = st.sidebar.radio("Choose Action", [
+# ------------------ SIDEBAR ------------------
+st.sidebar.title("📌 Navigation")
+option = st.sidebar.radio("Choose Feature", [
     "🏠 Home",
     "🔋 Battery Status",
     "⏰ Time & Date",
-    "🌐 Open Websites",
+    "🌐 Quick Access",
     "💻 System Health"
 ])
 
-# HOME
+# ------------------ HOME ------------------
 if option == "🏠 Home":
     st.subheader("Welcome 👋")
     st.write("This is your Web-Based Desktop Assistant.")
-    st.info("Note: Voice and system controls work only in local version.")
+    
+    st.info("""
+    ⚠ Limitations in Web Version:
+    - No microphone access
+    - No system control (shutdown, notepad, etc.)
+    
+    👉 Full features available in local version
+    """)
 
-# BATTERY
+# ------------------ BATTERY ------------------
 elif option == "🔋 Battery Status":
     st.subheader("🔋 Battery Status")
-   if st.button("Check Battery"):
-    battery = psutil.sensors_battery()
 
-    if battery:
-        percent = battery.percent
-        st.progress(percent)
-        speak(f"Battery is at {percent}%")
-    else:
-        st.warning("⚠ Battery data not available on server")
+    if st.button("Check Battery"):
+        battery = psutil.sensors_battery()
 
-# TIME & DATE
+        if battery:
+            percent = battery.percent
+            st.progress(percent)
+            speak(f"Battery is at {percent}%")
+        else:
+            st.warning("⚠ Battery information not available on this server")
+
+# ------------------ TIME & DATE ------------------
 elif option == "⏰ Time & Date":
     st.subheader("⏰ Time & Date")
 
@@ -53,41 +65,47 @@ elif option == "⏰ Time & Date":
 
     with col1:
         if st.button("Show Time"):
-            time = datetime.datetime.now().strftime("%I:%M %p")
-            speak(f"Current Time: {time}")
+            current_time = datetime.datetime.now().strftime("%I:%M %p")
+            speak(f"Current Time: {current_time}")
 
     with col2:
         if st.button("Show Date"):
-            date = datetime.date.today().strftime("%B %d, %Y")
-            speak(f"Today's Date: {date}")
+            today_date = datetime.date.today().strftime("%B %d, %Y")
+            speak(f"Today's Date: {today_date}")
 
-# WEBSITES
-elif option == "🌐 Open Websites":
-    st.subheader("🌐 Quick Access")
+# ------------------ QUICK ACCESS ------------------
+elif option == "🌐 Quick Access":
+    st.subheader("🌐 Open Websites")
 
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("[▶ Open Google](https://www.google.com)")
-        st.markdown("[▶ Open YouTube](https://www.youtube.com)")
+        st.markdown("### 🔗 Popular")
+        st.markdown("[▶ Google](https://www.google.com)")
+        st.markdown("[▶ YouTube](https://www.youtube.com)")
 
     with col2:
-        st.markdown("[▶ Open GitHub](https://github.com)")
-        st.markdown("[▶ Open LinkedIn](https://linkedin.com)")
+        st.markdown("### 💼 Professional")
+        st.markdown("[▶ GitHub](https://github.com)")
+        st.markdown("[▶ LinkedIn](https://linkedin.com)")
 
-# SYSTEM HEALTH
+# ------------------ SYSTEM HEALTH ------------------
 elif option == "💻 System Health":
     st.subheader("💻 System Health")
 
     if st.button("Check System Health"):
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory().percent
-        speak(f"CPU Usage: {cpu}% | RAM Usage: {ram}%")
 
-# Footer
+        st.write(f"🧠 CPU Usage: {cpu}%")
+        st.write(f"📊 RAM Usage: {ram}%")
+
+        speak(f"CPU is {cpu}% and RAM is {ram}%")
+
+# ------------------ FOOTER ------------------
 st.markdown("""
     <hr>
     <p style='text-align: center; color: grey;'>
-    🚀 Built with Streamlit | MCA Final Year Project
+    🚀 MCA Final Year Project | Built with Streamlit
     </p>
 """, unsafe_allow_html=True)

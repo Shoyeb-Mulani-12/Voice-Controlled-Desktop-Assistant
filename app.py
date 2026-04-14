@@ -1,6 +1,7 @@
 import streamlit as st
 import datetime
 import psutil
+import pytz   # ✅ move here (TOP)
 
 # ------------------ PAGE CONFIG ------------------
 st.set_page_config(
@@ -42,10 +43,7 @@ if option == "🏠 Home":
     👉 Full features available in local version
     """)
 
-
 # ------------------ TIME & DATE ------------------
-import pytz
-
 elif option == "⏰ Time & Date":
     st.subheader("⏰ Time & Date")
 

@@ -24,7 +24,6 @@ def speak(text):
 st.sidebar.title("📌 Navigation")
 option = st.sidebar.radio("Choose Feature", [
     "🏠 Home",
-    "🔋 Battery Status",
     "⏰ Time & Date",
     "🌐 Quick Access",
     "💻 System Health"
@@ -43,23 +42,6 @@ if option == "🏠 Home":
     👉 Full features available in local version
     """)
 
-# ------------------ BATTERY ------------------
-elif option == "🔋 Battery Status":
-    st.subheader("🔋 Battery Status")
-
-    if st.button("Check Battery"):
-        try:
-            battery = psutil.sensors_battery()
-
-            if battery is None:
-                st.warning("⚠ Battery not available on this system")
-            else:
-                percent = battery.percent
-                st.progress(percent)
-                speak(f"Battery is at {percent}%")
-
-        except Exception:
-            st.warning("⚠ Battery information not supported on this server")
 
 # ------------------ TIME & DATE ------------------
 elif option == "⏰ Time & Date":

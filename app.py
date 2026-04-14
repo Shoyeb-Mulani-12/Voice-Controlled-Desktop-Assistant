@@ -1,60 +1,88 @@
 import streamlit as st
 import datetime
 import psutil
-import webbrowser
 
-st.set_page_config(page_title="Desktop Assistant", layout="centered")
+# Page config
+st.set_page_config(page_title="AI Desktop Assistant", page_icon="🤖", layout="centered")
 
-st.title(" Voice Controlled Desktop Assistant (Web Version)")
-st.write("Created by Shoyeb Hamid Mulani")
+# Header
+st.markdown("""
+    <h1 style='text-align: center; color: #4CAF50;'>🤖 AI Desktop Assistant</h1>
+    <h4 style='text-align: center;'>Created by Shoyeb Hamid Mulani</h4>
+    <hr>
+""", unsafe_allow_html=True)
 
-command = st.text_input("Enter your command:")
-
+# Function to display response
 def speak(text):
-    st.success(f"Assistant: {text}")
+    st.success(text)
 
-if command:
-    query = command.lower()
+# Sidebar
+st.sidebar.title("📌 Menu")
+option = st.sidebar.radio("Choose Action", [
+    "🏠 Home",
+    "🔋 Battery Status",
+    "⏰ Time & Date",
+    "🌐 Open Websites",
+    "💻 System Health"
+])
 
-    if "battery" in query:
+# HOME
+if option == "🏠 Home":
+    st.subheader("Welcome 👋")
+    st.write("This is your Web-Based Desktop Assistant.")
+    st.info("Note: Voice and system controls work only in local version.")
+
+# BATTERY
+elif option == "🔋 Battery Status":
+    st.subheader("🔋 Battery Status")
+    if st.button("Check Battery"):
         battery = psutil.sensors_battery()
-        percent = battery.percent if battery else "Not available"
+        percent = battery.percent if battery else "Not Available"
         speak(f"Battery is at {percent}%")
 
-    elif "time" in query:
-        now = datetime.datetime.now().strftime("%I:%M %p")
-        speak(f"Current time is {now}")
+# TIME & DATE
+elif option == "⏰ Time & Date":
+    st.subheader("⏰ Time & Date")
 
-    elif "date" in query:
-        today = datetime.date.today().strftime("%B %d, %Y")
-        speak(f"Today's date is {today}")
+    col1, col2 = st.columns(2)
 
-    elif "open youtube" in query:
-        speak("Opening YouTube")
-        st.markdown("[Open YouTube](https://www.youtube.com)")
+    with col1:
+        if st.button("Show Time"):
+            time = datetime.datetime.now().strftime("%I:%M %p")
+            speak(f"Current Time: {time}")
 
-    elif "open google" in query:
-        speak("Opening Google")
-        st.markdown("[Open Google](https://www.google.com)")
+    with col2:
+        if st.button("Show Date"):
+            date = datetime.date.today().strftime("%B %d, %Y")
+            speak(f"Today's Date: {date}")
 
-    elif "search" in query:
-        search_query = st.text_input("What do you want to search?")
-        if search_query:
-            st.markdown(f"[Search {search_query}](https://www.google.com/search?q={search_query})")
+# WEBSITES
+elif option == "🌐 Open Websites":
+    st.subheader("🌐 Quick Access")
 
-    elif "system health" in query:
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("[▶ Open Google](https://www.google.com)")
+        st.markdown("[▶ Open YouTube](https://www.youtube.com)")
+
+    with col2:
+        st.markdown("[▶ Open GitHub](https://github.com)")
+        st.markdown("[▶ Open LinkedIn](https://linkedin.com)")
+
+# SYSTEM HEALTH
+elif option == "💻 System Health":
+    st.subheader("💻 System Health")
+
+    if st.button("Check System Health"):
         cpu = psutil.cpu_percent()
         ram = psutil.virtual_memory().percent
-        speak(f"CPU: {cpu}% | RAM: {ram}%")
+        speak(f"CPU Usage: {cpu}% | RAM Usage: {ram}%")
 
-    elif "notepad" in query or "calculator" in query:
-        speak("This feature works only in local system (not supported on web)")
-
-    elif "shutdown" in query or "restart" in query:
-        speak("System control commands are disabled in web version")
-
-    elif "exit" in query:
-        speak("Goodbye!")
-
-    else:
-        speak("Sorry, I didn't understand that command")
+# Footer
+st.markdown("""
+    <hr>
+    <p style='text-align: center; color: grey;'>
+    🚀 Built with Streamlit | MCA Final Year Project
+    </p>
+""", unsafe_allow_html=True)
